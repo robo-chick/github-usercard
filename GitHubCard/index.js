@@ -2,7 +2,13 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
-
+axios.get('https://api.github.com/users/robo-chick')
+  .then(response => {
+    newCard.append(cardMaker(response.data));
+  })
+  .catch(error => {
+    console.log('The data was not returned', error)
+  })
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -24,7 +30,13 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell'
+];
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -53,3 +65,67 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+function cardMaker(obj) {
+  const card = document.createElement('div');
+  card.classList.add('card');
+
+  const image = document.createElement('img');
+  
+
+  const cardInfo = document.createElement('div');
+  cardInfo.classList.add('card-info');
+
+  const name = document.createElement('h3');
+  name.classList.add('name');
+  
+
+  const userName = document.createElement('p');
+  userName.classList.add('username');
+  
+
+  const location = document.createElement('p');
+  
+
+  const profile = document.createElement('p');
+  
+
+  const link = document.createElement('a');
+ 
+
+  const followers = document.createElement('p');
+  
+
+  const following = document.createElement('p');
+  
+
+  const bio = document.createElement('p');
+  
+
+  image.src = obj.avatar_url;
+  name.textContent = obj.name;
+  userName.textContent = obj.login;
+  location.textContent = (`Location: ${obj.location}`);
+  profile.textContent = (`Profile: ${link}`);
+  link.textContent = obj.html_url
+  link.href = obj.html_url;
+  followers.textContent = (`Followers: ${obj.followers}`);
+  following.textContent = (`Following: ${obj.following}`);
+  bio.textContent = (`Bio: ${obj.bio}`);
+
+  
+  card.appendChild(image);
+  card.appendChild(cardInfo);
+  card.appendChild(name);
+  card.appendChild(userName);
+  card.appendChild(location);
+  card.appendChild(profile);
+  profile.appendChild(link);
+  card.appendChild(followers);
+  card.appendChild(following);
+  card.appendChild(bio);
+
+  return card;
+}
+
+const newCard = document.querySelector('.cards');
