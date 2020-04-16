@@ -2,6 +2,7 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+// create new card with my data
 axios.get('https://api.github.com/users/robo-chick')
   .then(response => {
     newCard.append(cardMaker(response.data));
@@ -9,6 +10,22 @@ axios.get('https://api.github.com/users/robo-chick')
   .catch(error => {
     console.log('The data was not returned', error)
   })
+
+  axios.get('https://api.github.com/users/robo-chick/followers')
+    .then(response => {
+      response.data.forEach(follower => {
+        axios.get(follower.url)
+          .then(followerResponse => {
+            newCard.append(cardMaker(followerResponse.data));
+          })
+          .catch(followerError => {
+            console.log('The data was not returned', followerError);
+          })
+      })
+    })
+    .catch(error => {
+      console.log(error);
+    })
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -66,6 +83,7 @@ const followersArray = [
   bigknell
 */
 
+// create function & elements, add classes
 function cardMaker(obj) {
   const card = document.createElement('div');
   card.classList.add('card');
@@ -101,7 +119,7 @@ function cardMaker(obj) {
 
   const bio = document.createElement('p');
   
-
+  // pass user data
   image.src = obj.avatar_url;
   name.textContent = obj.name;
   userName.textContent = obj.login;
@@ -113,7 +131,7 @@ function cardMaker(obj) {
   following.textContent = (`Following: ${obj.following}`);
   bio.textContent = (`Bio: ${obj.bio}`);
 
-  
+  // structure
   card.appendChild(image);
   card.appendChild(cardInfo);
   card.appendChild(name);
