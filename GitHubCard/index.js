@@ -18,8 +18,17 @@ axios.get('https://api.github.com/users/robo-chick')
           .then(followerResponse => {
             newCard.append(cardMaker(followerResponse.data));
           })
+          followersArray.forEach(follower => {
+            axios.get('https://api.github.com/users/${follower}')
+            .then(response => {
+              newCard.append(cardMaker(response));
+            })
+          })
           .catch(followerError => {
             console.log('The data was not returned', followerError);
+          })
+          .catch(arrayError => {
+            console.log('The data was not returned', error);
           })
       })
     })
